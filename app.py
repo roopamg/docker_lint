@@ -13,12 +13,12 @@ if __name__ == '__main__':
 def validate(command, line):
     msg = ""
     if command == 'FROM':
-
         if ' ' in line:
             msg = "Image name is not valid in FROM statement"
             return msg
-        elif ' ' not in line:   
+        elif '' not in line:
             t = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',lne)
+            
         else:
             return 1
     if command == 'COPY':
