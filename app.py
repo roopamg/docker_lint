@@ -17,7 +17,7 @@ def validate(command, line):
             msg = "Image name is not valid in FROM statement"
             return msg
         elif '' not in line:
-            t = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',lne)
+            t = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',line)
             
         else:
             return 1
@@ -37,6 +37,23 @@ def validate(command, line):
             return msg
         else:
             return 1
+            """
+    if command == 'LABEL':
+        if ' ' in line:
+            t = re.findall('[a-zA-Z\s]+$) = [a-zA-Z\s] | [a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+',line)
+            
+        else:
+            msg = "Incorrect Format for LABEL"
+            return msg
+            """
+    if command == 'WORKDIR':
+        if ' ' in line:
+            t = re.findall('^/|(/[a-zA-Z0-9_-]+)+$',line)
+        else:
+            msg = "Incorrect format for WORKDIR"
+            return msg
+
+
     if command == 'EXPOSE':
         if '/' in line:
             line = line.split('/')
@@ -69,7 +86,7 @@ def hello():
     if request.method == 'POST':
         code = request.form['code']
         nlines = code.count('\n')
-        commands = ['FROM','EXPOSE','COPY','ADD']
+        commands = ['FROM','EXPOSE','COPY','ADD','LABEL','WORKDIR']
         for line in code.splitlines():
             print(line)
             cmd = line.split(" ",1)

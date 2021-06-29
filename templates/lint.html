@@ -13,13 +13,13 @@
 <body onload="initialize()" onresize="onresize_sub()">
 	<h1>Docker Lint</h1>
 	<p>Paste in your DockerFile and click "Go" - we'll tell you if it's valid or not, and give you a nice clean UTF-8 version of it. </p>
-	<form method="POST" id="dockerfile" action="/">
+	<form method="POST"  id="dockerfile" action="/">
 	<div>
 		<textarea class="rownr" rows="20" cols="3" value="1" readonly></textarea>
 		<span>
 			<textarea class="txt" rows="20" cols="150" nowrap="nowrap" wrap="off" value={{ code }}
 			autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-			onclick="selectionchanged(this)" onkeyup="keyup(this,event)" oninput="input_changed(this)" name="code" id="code" onscroll="scroll_changed(this)"></textarea><br/><br/>
+			onclick="selectionchanged(this)" onkeyup="keyup(this,event)" oninput="input_changed(this)" name="code" id="code" onscroll="scroll_changed(this)" value="{{request.form['code']}}"></textarea><br/><br/>
 			<!--<label>Current position: </label><input id="sel_in" style="border-style:none" readonly>-->
 			<button type="submit"  value="Submit">Submit</button>
 		</span>
@@ -29,6 +29,8 @@
 </body>
 
 <SCRIPT Language="javascript">
+
+	
 
 	var cntline;
 	
