@@ -37,18 +37,23 @@ def validate(command, line):
             return msg
         else:
             return 1
-            """
+    """        
     if command == 'LABEL':
-        if ' ' in line:
-            t = re.findall('[a-zA-Z\s]+$) = [a-zA-Z\s] | [a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+',line)
+        if ' ' not in line:
+            #t = re.findall(r'[A-Za-z0-9-.]=[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+',line)
+            t = re.findall(r'\b\w+:[\w\s]+\b(?!:)',line)
             
         else:
             msg = "Incorrect Format for LABEL"
             return msg
             """
+            
     if command == 'WORKDIR':
-        if ' ' in line:
-            t = re.findall('^/|(/[a-zA-Z0-9_-]+)+$',line)
+        if '' in line:
+            t = re.findall(r'(\/.*?\.[\w:]+)',line)
+
+            msg = "All good"
+            return msg
         else:
             msg = "Incorrect format for WORKDIR"
             return msg
@@ -86,7 +91,7 @@ def hello():
     if request.method == 'POST':
         code = request.form['code']
         nlines = code.count('\n')
-        commands = ['FROM','EXPOSE','COPY','ADD','LABEL','WORKDIR']
+        commands = ['FROM','EXPOSE','COPY','ADD','WORKDIR']
         for line in code.splitlines():
             print(line)
             cmd = line.split(" ",1)
