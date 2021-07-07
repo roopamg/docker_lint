@@ -109,6 +109,12 @@ def hello():
         }
     return render_template("lint.html", **templatedata)
 
+
+@app.route('/demo')
+def submit():
+
+    return render_template("docker.html")
+
 # @app.route('/submit', methods=['POST'])
 # def submit():
 #     error = ""
