@@ -17,7 +17,7 @@ def validate(command, line):
             msg = "Image name is not valid in FROM statement"
             return msg
         elif '' not in line:
-            t = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',line)
+            t = re.findall('http[s]?://(?:[a-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-f][0-9a-f]))+',line)
             
         else:
             return 1
@@ -49,14 +49,60 @@ def validate(command, line):
             """
             
     if command == 'WORKDIR':
+        a = " "
         if '' in line:
-            t = re.findall(r'(\/.*?\.[\w:]+)',line)
+            a = re.findall(r'(\/.*?\.[\w:]+)',line)
+            print(a)
+            if a == []:
+                print(type(a))
+                msg = "Incorrect format for WORKDIR"
+                return msg
 
-            msg = "All good"
-            return msg
-        else:
-            msg = "Incorrect format for WORKDIR"
-            return msg
+            else:
+                msg = "All good"
+                return msg
+                
+    if command == 'USER':
+        b = " "
+        if '' in line:
+            b = re.findall(r'^[$]?[a-zA-Z0-9_.+-]+',line)
+            print(b)
+            if b == []:
+                print(type(b))
+                msg = "Incorrect format for USER"
+                return msg
+
+            else:
+                msg = "All good"
+                return msg
+
+    if command == 'ARG':
+        c = " "
+        if '' in line:
+            c = re.findall(r'(\w*)=?(\".*?\"|\S*)', line)
+            print(c)
+            if c == [('', '')]:
+                print(type(c))
+                msg = "Incorrect format for ARG"
+                return msg
+
+            else:
+                msg = "All good"
+                return msg
+
+    if command == 'ENV':
+        d = " "
+        if '' in line:
+            d = re.findall(r'(\w*)=(\"[\w\s\+()\.]*\"|[\w\s\-\:\.])*(\w*.?))', line)
+            print(d)
+            if d == []:
+                print(type(d))
+                msg = "Incorrect format for ENV"
+                return msg
+
+            else:
+                msg = "All good"
+                return msg
 
 
     if command == 'EXPOSE':
@@ -91,7 +137,7 @@ def hello():
     if request.method == 'POST':
         code = request.form['code']
         nlines = code.count('\n')
-        commands = ['FROM','EXPOSE','COPY','ADD','WORKDIR']
+        commands = ['FROM','EXPOSE','COPY','ADD','WORKDIR','USER','ARG','ENV']
         for line in code.splitlines():
             print(line)
             cmd = line.split(" ",1)
