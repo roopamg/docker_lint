@@ -37,21 +37,23 @@ def validate(command, line):
             return msg
         else:
             return 1
-    """        
+           
     if command == 'LABEL':
         if ' ' not in line:
             #t = re.findall(r'[A-Za-z0-9-.]=[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+',line)
-            t = re.findall(r'\b\w+:[\w\s]+\b(?!:)',line)
-            
+            #t = re.findall(r'\b\w+:[\w\s]+\b(?!:)',line)
+            t = re.findall(r'("[\w\s\+()\.]*\"|[\w\-\:\.]*)=?(\"[\w\s\+()\.]*\"|[\w\-\:\.]*)',line)
+            msg = "All good"
+            return msg
         else:
             msg = "Incorrect Format for LABEL"
             return msg
-            """
+
             
     if command == 'WORKDIR':
         a = " "
         if '' in line:
-            a = re.findall(r'(\/.*?\.[\w:]+)',line)
+            a = re.findall(r'(^(/[^/ ]*)+/?$)',line)
             print(a)
             if a == []:
                 print(type(a))
@@ -65,7 +67,7 @@ def validate(command, line):
     if command == 'USER':
         b = " "
         if '' in line:
-            b = re.findall(r'^[$]?[a-zA-Z0-9_.+-]+',line)
+            b = re.search(r'^[$]?[a-z0-9_.+-]+',line)
             print(b)
             if b == []:
                 print(type(b))
@@ -93,11 +95,27 @@ def validate(command, line):
     if command == 'ENV':
         d = " "
         if '' in line:
-            d = re.findall(r'(\w*)=(\"[\w\s\+()\.]*\"|[\w\s\-\:\.])*(\w*.?))', line)
+            d = re.findall(r'(\w*)=?(\"[\w\s\+()\.]*\"|[\w\-\:\.]*)', line)
             print(d)
             if d == []:
                 print(type(d))
                 msg = "Incorrect format for ENV"
+                return msg
+
+            else:
+                msg = "All good"
+                return msg
+
+    if command == 'VOLUME':
+        a = " "
+        if '' in line:
+            #a = re.findall(r'(\/.*?\.[\w:]+)',line)
+            a = "file path /log/file.txt some lines /log/var/file2.txt"
+            t = re.findall(r'(\/.*?\.[\w:]+)',a)
+            print(a)
+            if a == []:
+                print(type(a))
+                msg = "Incorrect format for VOLUME"
                 return msg
 
             else:
@@ -137,7 +155,7 @@ def hello():
     if request.method == 'POST':
         code = request.form['code']
         nlines = code.count('\n')
-        commands = ['FROM','EXPOSE','COPY','ADD','WORKDIR','USER','ARG','ENV']
+        commands = ['FROM','EXPOSE','COPY','ADD','WORKDIR','USER','ARG','ENV','LABEL','VOLUME']
         for line in code.splitlines():
             print(line)
             cmd = line.split(" ",1)

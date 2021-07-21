@@ -13,21 +13,59 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.0/css/all.css" integrity="sha384-OLYO0LymqQ+uHXELyx93kblK5YIS3B2ZfLGBmsJaUyor7CpMTBsahDHByqSuWW+q" crossorigin="anonymous">
   <style type="text/css">
-  	.rownr {overflow-y: hidden; background-color: rgb(105,105,105); color: white; text-align: right; vertical-align:top; z-index: 0}
-		.txt {width: 95%; overflow-x: scroll; background: transparent; z-index: 0}
+  	.rownr {overflow-y: hidden; background-color: rgb(105,105,105); color: white; text-align: right; vertical-align:top; z-index: 0;}
+		.txt {width: 70%; overflow-x: scroll; background: transparent; z-index: 0}
   	*{
   		margin: 0;
   		padding: 0;
   	}
 
+    #h2 {
+   font-size: 1.5em;
+
+    }
+
+  	.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: darkred;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
   	.footer {
    left: 0;
    bottom: 0;
+   margin-top: 30px;
    width: 100%;
    text-align: center;
+}
+  
+    .message {
+   background-color: #4CAF50; /* Green */
+   color: darkred;
+}
+
+
   </style>
+
+
 </head>
 
+<body>
+    <div id="button">
+
+</div>
+
+<body>
+    <div id="h2">
+
+</div>
+
+</body>
 
 
 <body onload="initialize()" onresize="onresize_sub()">
@@ -42,28 +80,27 @@
 <br><br><br>
 
 <div class="container">
-	<h1>Docker Lint</h1>
-	<p>Paste in your DockerFile and click "Go" - we'll tell you if it's valid or not, and give you a nice clean UTF-8 version of it. </p>
+	<h1 font-size="1.5em">Docker Lint</h1>
+  <p>Paste in your DockerFile and click "Submit" - we'll tell you if it's valid or not, and give you a nice clean UTF-8 version of it. </p> 
+  <p>{{ message }}</p>
 	<form method="POST"  id="dockerfile" action="/">
 	<div>
-		<textarea class="rownr" rows="20" cols="3" value="1" readonly></textarea>
+		<textarea class="rownr" rows="16" cols="1" value="1" readonly></textarea>
 		<span>
-			<textarea class="txt" rows="20" cols="150" nowrap="nowrap" wrap="off" value={{ code }}
-			autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+			<textarea class="txt" rows="15" cols="150" nowrap="nowrap" wrap="off" value={{ code }}
+			autocomplete="off" autocorrect="off" autocapitalize="off" style="overflow:auto" spellcheck="false"
 			onclick="selectionchanged(this)" onkeyup="keyup(this,event)" oninput="input_changed(this)" name="code" id="code" onscroll="scroll_changed(this)" value="{{request.form['code']}}"></textarea><br/><br/>
 			<!--<label>Current position: </label><input id="sel_in" style="border-style:none" readonly>-->
-			<button type="submit"  value="Submit">Submit</button>
+			<button type="submit" class="btn btn-info" value="Submit">Submit</button>
 		</span>
 	</div>
 	</form>
-	<p>>{{ message }}</p>
 </body>
 
 
 <footer>
 	<p class="text-center bg-dark text-white footer">© 2021 Thinknyx Technologies LLP. All Rights Reserved</p>
 </footer>
-
 
 <SCRIPT Language="javascript">
 
