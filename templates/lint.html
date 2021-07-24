@@ -89,7 +89,7 @@
 		<span>
 			<textarea class="txt" rows="15" cols="150" nowrap="nowrap" wrap="off" value={{ code }}
 			autocomplete="off" autocorrect="off" autocapitalize="off" style="overflow:auto" spellcheck="false"
-			onclick="selectionchanged(this)" onkeyup="keyup(this,event)" oninput="input_changed(this)" name="code" id="code" onscroll="scroll_changed(this)" value="{{request.form['code']}}"></textarea><br/><br/>
+			onclick="selectionchanged(this)" onkeyup="keyup(this,event)" oninput="input_changed(this)" name="code" id="code" onscroll="scroll_changed(this)" value="{{request.form['code']}}">{{ request.form['code'] }}</textarea><br/><br/>
 			<!--<label>Current position: </label><input id="sel_in" style="border-style:none" readonly>-->
 			<button type="submit" class="btn btn-info" value="Submit">Submit</button>
 		</span>
@@ -176,7 +176,7 @@
 		{
 			return 1;
 		}
-		return txt.split('\n').length + 1;
+		return txt.split('\n').length;
 	}
 	
 </SCRIPT>

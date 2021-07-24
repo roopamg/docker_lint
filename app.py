@@ -39,6 +39,7 @@ def validate(command, line):
             return 1
            
     if command == 'LABEL':
+
         if ' ' not in line:
             #t = re.findall(r'[A-Za-z0-9-.]=[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+',line)
             #t = re.findall(r'\b\w+:[\w\s]+\b(?!:)',line)
@@ -54,6 +55,7 @@ def validate(command, line):
         a = " "
         if '' in line:
             a = re.findall(r'(^(/[^/ ]*)+/?$)',line)
+
             print(a)
             if a == []:
                 print(type(a))
@@ -67,16 +69,22 @@ def validate(command, line):
     if command == 'USER':
         b = " "
         if '' in line:
-            b = re.search(r'^[$]?[a-z0-9_.+-]+',line)
-            print(b)
-            if b == []:
-                print(type(b))
-                msg = "Incorrect format for USER"
-                return msg
+            regex = re.compile('[@_!#%^&*()<>?/\|}{~:]')
+            if(regex.search(line) == None):
 
+                b = re.search(r'^[$]?[a-z0-9_.+-]+',line)
+                print(b)
+                if b == []:
+                    print(type(b))
+                    msg = "Incorrect format for USER"
+                    return msg
+
+                else:
+                    msg = "All good"
+                    return msg
             else:
-                msg = "All good"
-                return msg
+                msg = "String is Invalid for USER."
+                return(msg)
 
     if command == 'ARG':
         c = " "
@@ -106,21 +114,84 @@ def validate(command, line):
                 msg = "All good"
                 return msg
 
+    
     if command == 'VOLUME':
-        a = " "
+        e = " "
         if '' in line:
-            #a = re.findall(r'(\/.*?\.[\w:]+)',line)
-            a = "file path /log/file.txt some lines /log/var/file2.txt"
-            t = re.findall(r'(\/.*?\.[\w:]+)',a)
-            print(a)
-            if a == []:
-                print(type(a))
+
+        
+
+            e = re.findall(r'(\/.*?\.[\w:]+)',line)
+            print(e)
+            if e == []:
+                print(type(e))
                 msg = "Incorrect format for VOLUME"
                 return msg
 
             else:
                 msg = "All good"
                 return msg
+
+    if command == 'CMD':
+        t = " "
+        a = str(line)
+        print(a)
+
+        t = re.findall(r'\[(".*?"(,)".*?"\])',a)
+
+
+#t = re.findall(r'(\[\"\[A-Za-z-@$%]\"\]\*)',a)
+
+        print(t)
+        if t == []:
+            print(type(t))
+            msg = "Incorrect format for CMD"
+            return msg
+        else:
+            msg = "All good"
+            return msg
+
+
+
+    if command == 'ENTRYPOINT':
+        t = " "
+        a = str(line)
+        print(a)
+
+        t = re.findall(r'\[(".*?"(,)".*?"\])',a)
+
+
+#t = re.findall(r'(\[\"\[A-Za-z-@$%]\"\]\*)',a)
+
+        print(t)
+        if t == []:
+            print(type(t))
+            msg = "Incorrect format for ENTRYPOINT"
+            return msg
+        else:
+            msg = "All good"
+            return msg
+
+    if command == 'SHELL':
+        t = " "
+        a = str(line)
+        print(a)
+
+        t = re.findall(r'\[(".*?"(,)".*?"\])',a)
+
+
+#t = re.findall(r'(\[\"\[A-Za-z-@$%]\"\]\*)',a)
+
+        print(t)
+        if t == []:
+            print(type(t))
+            msg = "Incorrect format for SHELL"
+            return msg
+        else:
+            msg = "All good"
+            return msg
+
+
 
 
     if command == 'EXPOSE':
@@ -155,7 +226,7 @@ def hello():
     if request.method == 'POST':
         code = request.form['code']
         nlines = code.count('\n')
-        commands = ['FROM','EXPOSE','COPY','ADD','WORKDIR','USER','ARG','ENV','LABEL','VOLUME']
+        commands = ['FROM','EXPOSE','COPY','ADD','WORKDIR','USER','ARG','ENV','LABEL','VOLUME','CMD','SHELL','ENTRYPOINT']
         for line in code.splitlines():
             print(line)
             cmd = line.split(" ",1)
